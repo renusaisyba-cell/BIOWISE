@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b2a"><title>Bio Wise | Biogas Estimation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#top"><span class="brand-icon">♻</span><span>Bio<span class="brand-light">Wise</span><small>BIOGAS INTELLIGENCE</small></span></a>
+    <nav aria-label="Main navigation">
+      <a class="nav-link active" href="#overview">▦ <span>Overview</span></a>
+      <a class="nav-link" href="#estimate">＋ <span>Biogas estimator</span></a>
+      <a class="nav-link" href="#charts">▥ <span>Analytics & graphs</span></a>
+      <a class="nav-link" href="#energy">₹ <span>Energy & savings</span></a>
+      <a class="nav-link" href="#digestate">♧ <span>Digestate management</span></a>
+      <a class="nav-link" href="#records">☷ <span>Recent records</span></a>
+    </nav>
+    <div class="sidebar-bottom"><div class="leaf-art">✳</div><p>Turn organic waste into useful energy.</p><small>ESTIMATES · NOT SENSOR DATA</small></div>
+  </aside>
+  <main id="top" class="main-content">
+    <header class="topbar"><div><p class="eyebrow">SUSTAINABLE ENERGY DASHBOARD</p><h1 id="overview">Good things grow from waste.</h1><p class="muted">Monitor estimated biogas production, operating conditions, energy savings and digestate.</p></div><div class="top-actions"><span id="db-status" class="status-pill status-warn">Checking database…</span><span class="date-chip" id="today-label">Today</span></div></header>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <section class="metric-grid" aria-label="Summary metrics">
+      <article class="metric-card dark-card"><div class="metric-top"><span>Latest estimated gas</span><span class="metric-icon">◉</span></div><strong id="metric-gas">— <small>m³</small></strong><p>From saved waste estimates</p></article>
+      <article class="metric-card"><div class="metric-top"><span>Latest temperature</span><span class="metric-icon">♨</span></div><strong id="metric-temp">— <small>°C</small></strong><p>Manually recorded measurement</p></article>
+      <article class="metric-card"><div class="metric-top"><span>Latest methane</span><span class="metric-icon">◌</span></div><strong id="metric-methane">— <small>%</small></strong><p>Manually recorded measurement</p></article>
+      <article class="metric-card"><div class="metric-top"><span>Estimated savings</span><span class="metric-icon">₹</span></div><strong id="metric-savings">— <small>₹</small></strong><p>Based on configured assumptions</p></article>
+    </section>
+    <section class="section-grid">
+      <article class="panel" id="estimate"><div class="panel-heading"><div><p class="eyebrow">ESTIMATION TOOL</p><h2>Estimate biogas production</h2></div><span class="tag">Modelled value</span></div>
+        <form id="estimate-form" class="form-grid"><label>Organic waste type<select id="waste-type" required><option value="food">Food / kitchen waste</option><option value="cattle">Cattle dung</option><option value="agricultural">Agricultural waste</option><option value="mixed">Mixed organic waste</option><option value="other">Other organic waste</option></select></label><label>Waste quantity (kg)<input id="waste-kg" type="number" min="0.1" max="100000" step="0.1" placeholder="e.g. 25" required></label><button class="btn btn-primary" type="submit">Calculate & save estimate <span>→</span></button></form>
+        <div class="result-box" id="estimate-result"><span class="result-symbol">↗</span><div><small>ESTIMATED BIOGAS OUTPUT</small><strong>— m³</strong><p>Enter waste quantity to calculate.</p></div></div><p class="fine-print">Illustrative yield factors only. Real output depends on feedstock, moisture, retention time and digester conditions.</p>
+      </article>
+      <article class="panel" id="energy"><div class="panel-heading"><div><p class="eyebrow">PRACTICAL VALUE</p><h2>Energy & savings calculator</h2></div><span class="tag tag-orange">Estimate only</span></div>
+        <form id="energy-form" class="form-grid"><label>Biogas produced (m³)<input id="energy-gas" type="number" min="0" max="100000" step="0.01" placeholder="e.g. 2.5" required></label><div class="assumption-note"><b>Assumptions from backend settings</b><span>Energy value, cooking efficiency, LPG equivalent and LPG price are configurable in <code>backend/.env</code>.</span></div><button class="btn btn-primary" type="submit">Calculate estimated savings <span>→</span></button></form>
+        <div class="energy-results"><div><span>Cooking energy</span><strong id="energy-kwh">— kWh</strong></div><div><span>Equivalent LPG displaced</span><strong id="energy-lpg">— kg</strong></div><div><span>Estimated savings</span><strong id="energy-rupees">— ₹</strong></div></div><p class="fine-print">Not guaranteed savings or exact LPG replacement. Gas quality, methane content, appliance efficiency, price and usage affect results.</p>
+      </article>
+    </section>
+    <section class="section-grid lower-grid">
+      <article class="panel" id="digestate"><div class="panel-heading"><div><p class="eyebrow">BY-PRODUCT TRACKING</p><h2>Digestate management</h2><p class="muted">Record the material remaining after anaerobic digestion.</p></div><span class="metric-icon">♧</span></div>
+        <form id="digestate-form" class="form-grid"><label>Daily waste input (kg)<input id="digestate-input" type="number" min="0" max="100000" step="0.1" placeholder="e.g. 25"></label><label>Measured digestate (kg, optional)<input id="digestate-measured" type="number" min="0" max="100000" step="0.1" placeholder="Leave blank to estimate"></label><label>Status / notes<input id="digestate-notes" maxlength="1000" placeholder="e.g. Stored for assessment"></label><button class="btn btn-secondary" type="submit">Save digestate record</button></form>
+        <div class="digestate-summary"><span>Latest digestate entry</span><strong id="digestate-latest">— kg/day</strong><small id="digestate-kind">No records yet</small></div><p class="fine-print">Estimated using the configurable waste-to-digestate ratio. Digestate reuse requires suitable handling and assessment; it is not automatically safe for every use.</p>
+      </article>
+      <article class="panel" id="observations"><div class="panel-heading"><div><p class="eyebrow">OPERATING CONDITIONS</p><h2>Record measurements</h2><p class="muted">Enter readings manually; no sensor is connected.</p></div></div>
+        <form id="observation-form" class="form-grid two-col"><label>Date & time<input id="obs-time" type="datetime-local"></label><label>Gas production (m³)<input id="obs-gas" type="number" min="0" max="100000" step="0.01"></label><label>Temperature (°C)<input id="obs-temp" type="number" min="-10" max="100" step="0.1"></label><label>pH (0–14)<input id="obs-ph" type="number" min="0" max="14" step="0.1"></label><label>Methane (%)<input id="obs-methane" type="number" min="0" max="100" step="0.1"></label><label>Predicted gas (m³)<input id="obs-predicted" type="number" min="0" max="100000" step="0.01"></label><label>Actual measured gas (m³)<input id="obs-actual" type="number" min="0" max="100000" step="0.01"></label><label class="full-width">Notes (optional)<input id="obs-notes" maxlength="1000" placeholder="Additional details"></label><button class="btn btn-secondary full-width" type="submit">Save observation</button></form>
+      </article>
+    </section>
+    <section class="panel charts-panel" id="charts"><div class="panel-heading"><div><p class="eyebrow">DATA-DRIVEN TRENDS</p><h2>Analytics & graphs</h2><p class="muted">Graphs use saved database records. Add observations to build trends.</p></div><button id="refresh-btn" class="btn btn-ghost" type="button">↻ Refresh data</button></div>
+      <div class="charts-grid"><article class="chart-card"><h3>Gas production vs time</h3><p>Biogas output · m³</p><canvas id="chart-gas" aria-label="Gas production over time"></canvas><div class="chart-empty" id="empty-gas">Add gas measurements to show this graph.</div></article><article class="chart-card"><h3>Temperature vs time</h3><p>Temperature · °C</p><canvas id="chart-temp" aria-label="Temperature over time"></canvas><div class="chart-empty" id="empty-temp">Add temperature measurements to show this graph.</div></article><article class="chart-card"><h3>pH vs time</h3><p>pH level · unitless</p><canvas id="chart-ph" aria-label="pH over time"></canvas><div class="chart-empty" id="empty-ph">Add pH measurements to show this graph.</div></article><article class="chart-card"><h3>Methane percentage vs time</h3><p>Methane concentration · %</p><canvas id="chart-methane" aria-label="Methane percentage over time"></canvas><div class="chart-empty" id="empty-methane">Add methane measurements to show this graph.</div></article><article class="chart-card chart-wide"><h3>Predicted vs actual production</h3><p>Compare only records with both values · m³</p><canvas id="chart-compare" aria-label="Predicted compared with actual gas production"></canvas><div class="chart-empty" id="empty-compare">Add both predicted and actual production in an observation.</div><div class="legend"><span><i class="legend-dot predicted"></i>Predicted</span><span><i class="legend-dot actual"></i>Actual measured</span></div></article></div>
+    </section>
+    <section class="panel" id="records"><div class="panel-heading"><div><p class="eyebrow">DATABASE HISTORY</p><h2>Recent records</h2><p class="muted">Latest saved estimates and observations.</p></div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Record</th><th>Details</th><th>Data type</th></tr></thead><tbody id="records-body"><tr><td colspan="4" class="empty-table">Connect Supabase and save records to see history.</td></tr></tbody></table></div></section>
+    <footer><span>Bio Wise · Biogas Estimation</span><span>Educational prototype · Values are estimates unless marked measured.</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body></html>
